@@ -45,6 +45,4 @@ Channel factories also have options that can be used to modify their behavior. F
 Expression quantification is the process of measuring how active or "expressed" genes are in a biological sample. Determines how much each gene is being used by cells at a given time. When a gene is active or "expressed" your cell makes RNA copies of that gene. The more active the gene, the more RNA copies get made. Expression quantification is basically counting these RNA copies to see which genes are working hard and which ones are taking it easy or taking a break.
 
 
-
-
-
+## Seqera Labs
