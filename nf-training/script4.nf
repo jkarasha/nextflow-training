@@ -35,6 +35,10 @@ process INDEX {
 }
 
 process QUANTIFICATION {
+
+    tag "Running Salmon on $sample_id"
+    publishDir params.outdir, mode: 'copy'
+
     input:
     path salmon_index
     tuple val(sample_id), path(reads)
@@ -53,6 +57,18 @@ workflow {
         .fromFilePairs(params.reads, checkIfExists: true)
         .set { read_pairs_ch }
 
+    read_pairs_ch.view { it }
+
     index_ch = INDEX(params.transcriptome_file)
+    // Notice how the quantification process is defined with two inputs
+    // The first is the path to the "index" and the second is the tuple of read pairs, id included
+    // For each read pair, the process will be executed once.args
+    // If pass in a glob pattern, it will be expanded into a list of paths
+
+    // nextflow run script4.nf -resume --reads 'data/ggal/*_{1,2}.fq' will get all read pairs in ggal folder
+    // The glob pattern will be expanded into a three tuples, which will trigger three tasks
     quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
+
+    // Print the quantification results
+    quant_ch.println()
 }
