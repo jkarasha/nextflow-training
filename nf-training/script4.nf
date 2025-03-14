@@ -67,6 +67,8 @@ workflow {
 
     // nextflow run script4.nf -resume --reads 'data/ggal/*_{1,2}.fq' will get all read pairs in ggal folder
     // The glob pattern will be expanded into a three tuples, which will trigger three tasks
+    // Really important concept in nextflow. If the input channel has {n} items,
+    // it will cause the process to be spawn {n} number of tasks. The tasks will run in parallel.
     quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
 
     // Print the quantification results

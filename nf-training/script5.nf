@@ -52,6 +52,7 @@ process QUANTIFICATION {
 }
 
 process FASTQC {
+
     tag "FASTQC on $sample_id"
 
     input:
@@ -72,6 +73,8 @@ workflow {
         .fromFilePairs(params.reads, checkIfExists: true)
         .set { read_pairs_ch }
 
+    //Notice the read_pairs_ch channel is passed to both processes
+    //Nextflow will create two identical read_pair_ch channels to pass to each process
     index_ch = INDEX(params.transcriptome_file)
     quant_ch = QUANTIFICATION(index_ch, read_pairs_ch)
     fastqc_ch = FASTQC(read_pairs_ch)
